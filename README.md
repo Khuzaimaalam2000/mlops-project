@@ -14,19 +14,19 @@ To ensure this project is reproducible, follow these steps to set up the environ
    git clone [https://github.com/Khuzaimaalam2000/mlops-project.git](https://github.com/Khuzaimaalam2000/mlops-project.git)
    cd mlops-project 
 2. **Create virtual environment**:
-    Bash
+    ```Bash
     python3.12 -m venv venv
     
 3. **Activate**:
-    Bash
+    ```Bash
     source venv/bin/activate
 
 4. **Install pinned dependencies**:
-    Bash
+    ```Bash
     pip install -r requirements.txt
 
 5. **Verify installation with smoke tests**:
-    Bash
+    ```Bash
     pytest tests/ -v
 
 **Reproducibility Principles**
