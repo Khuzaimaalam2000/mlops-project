@@ -41,14 +41,14 @@ Automated Validation: Our GitHub Actions CI pipeline recreates the environment f
 In the ML lifecycle, these practices are essential for trust and collaboration. If the training environment cannot be perfectly recreated, the resulting model cannot be trusted in production. By enforcing these standards at the start (Milestone 0), we guarantee that our models are built on a stable, verifiable foundation, which is crucial for identifying technical drift and ensuring long-term project viability.
 
 **Project Structure**
-├── .github/workflows/
-│   └── ci.yml          # CI pipeline
-├── src/                # Source code
-│   ├── __init__.py
-│   └── model.py        # ML logic (Model definition/training)
-├── tests/              # Test suite
-│   ├── __init__.py
-│   ├── test_smoke.py   # Environment check
-│   └── test_model.py   # Logic check for model.py
-├── requirements.txt    # Pinned dependencies
-└── README.md           # Documentation
+├── .github/workflows/ /n
+│   └── ci.yml          # CI pipeline /n
+├── src/                # Source code /n
+│   ├── __init__.py /n
+│   └── model.py        # ML logic (Model definition/training) /n
+├── tests/              # Test suite /n
+│   ├── __init__.py /n
+│   ├── test_smoke.py   # Environment check /n
+│   └── test_model.py   # Logic check for model.py /n
+├── requirements.txt    # Pinned dependencies /n
+└── README.md           # Documentation /n
