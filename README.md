@@ -1,3 +1,10 @@
-# MLOps Project
+# MLOps Project - Milestone 0
+![CI](https://github.com/Khuzaimaalam2000/mlops-project/actions/workflows/ci.yml/badge.svg)
 
-Milestone 0 - Environment & CI Setup
+A reproducible Python environment for Management Information Systems, validated with automated CI.
+
+## Quick Start
+1. **Clone the repository**: 
+   ```bash
+   git clone https://github.com/Khuzaimaalam2000/mlops-project.git
+   cd mlops-project
