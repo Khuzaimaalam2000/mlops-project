@@ -42,7 +42,7 @@ curl -X POST [https://fastapi-service-531088242025.us-central1.run.app/predict](
 curl -X POST "http://localhost:8000/predict" \
      -H "Content-Type: application/json" \
      -d '{"features": [1.0, 2.0, 3.0]}'
-    ``` 
+    
 ```
 
 ### Expected Response
