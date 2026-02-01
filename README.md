@@ -54,7 +54,7 @@ curl -X POST "http://localhost:8000/predict" \
 ``` 
 ---
 
-## 3. ML Lifecycle Explanation
+## ML Lifecycle Explanation
 This project represents the **Model Deployment and Inference** stage of the ML Lifecycle.
 * **Input**: The stage consumes a versioned `model.pkl` artifact produced during the Training stage.
 * **Process**: It wraps the model in a FastAPI service with Pydantic validation to ensure data quality.
@@ -62,7 +62,7 @@ This project represents the **Model Deployment and Inference** stage of the ML L
 
 ---
 
-## 4. Comparative Analysis: Cloud Run vs. Cloud Functions
+## Comparative Analysis: Cloud Run vs. Cloud Functions
 ### Latency and Cold Starts
 * **Cloud Run**: Observed cold starts of ~2-4 seconds after idling for 15+ minutes. Warm instances respond in <100ms.
 * **Cloud Functions**: Shorter cold start overhead (~1s) compared to containers but less efficient for heavy model processing.
@@ -77,5 +77,5 @@ This project represents the **Model Deployment and Inference** stage of the ML L
 
 ---
 
-## 5. Artifact Management
+## Artifact Management
 The model artifact (`model.pkl`) is loaded deterministically at application startup[cite: 12, 50, 64]. This ensures that the API does not suffer from the overhead of loading the model on every request, maintaining low latency for warm instances.
