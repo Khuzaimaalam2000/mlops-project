@@ -78,4 +78,4 @@ This project represents the **Model Deployment and Inference** stage of the ML L
 ---
 
 ## Artifact Management
-The model artifact (`model.pkl`) is loaded deterministically at application startup[cite: 12, 50, 64]. This ensures that the API does not suffer from the overhead of loading the model on every request, maintaining low latency for warm instances.
+The model artifact (`model.pkl`) is loaded deterministically at application startup. This ensures that the API does not suffer from the overhead of loading the model on every request, maintaining low latency for warm instances.
