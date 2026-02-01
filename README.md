@@ -25,7 +25,6 @@ This project demonstrates a production-ready MLOps workflow for deploying a Mach
 ## Testing the API
 You can test the live prediction endpoint using `curl` from your terminal:
 
-```bash
 curl -X POST [https://fastapi-service-531088242025.us-central1.run.app/predict](https://fastapi-service-531088242025.us-central1.run.app/predict) \
     -H "Content-Type: application/json" \
     -d '{"features": [1000.0]}'
@@ -43,11 +42,13 @@ curl -X POST [https://fastapi-service-531088242025.us-central1.run.app/predict](
 
 ## 2. API Usage Examples
 ### Local/Cloud Run Test
+
 ```bash
 curl -X POST "http://localhost:8000/predict" \
      -H "Content-Type: application/json" \
      -d '{"features": [1.0, 2.0, 3.0]}'
 [cite_start]``` [cite: 103, 104]
+```
 
 ### Expected Response
 ```json
