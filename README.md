@@ -1,12 +1,62 @@
 # MLOps Milestone 1: FastAPI Deployment to Google Cloud Run
 
-This project demonstrates a production-ready MLOps workflow for deploying a Machine Learning model as a containerized FastAPI service. This repository contains a deployed machine learning model exposing a prediction endpoint via **FastAPI on Google Cloud Run** and a **Serverless GCP Cloud Function**.
+This repository contains a complete MLOps pipeline for deploying a Machine Learning model using two distinct cloud architectures: **Containerized Microservices (Google Cloud Run)** and **Serverless Functions (Google Cloud Functions)**. 
 
+The goal of this project is to demonstrate the transition of a machine learning model from a static artifact to a scalable, production-ready API. It emphasizes reproducibility, version control, and the trade-offs between different cloud deployment strategies.
+
+---
+
+## Project Structure
+* **train.py**: The "Source of Truth" for the model. This script contains the logic to train the regression model and serialize it into a binary artifact (model.pkl).
+* **model.pkl**: The trained model artifact. This binary file is the bridge between the Data Science phase and the Operations phase.
+* **main.py**: The FastAPI application entry point. It defines the API routes, loads the model, and handles input validation using Pydantic.
+* **Dockerfile**: The blueprint for the containerized environment, ensuring the application runs identically on a local machine and in the cloud.
+* **cloud_function/**: A dedicated directory for the serverless implementation, containing its own main.py and dependencies tailored for the Google Cloud Functions runtime.
+* **requirements.txt**: Pinpoints exact library versions to ensure deterministic behavior and prevent "dependency drift."
+
+---
+
+## Model-API Interaction
+The interaction between the web server and the machine learning model is designed for high performance and low latency.
+
+* **Initialization (The "Cold Start"):** When the container or function starts, the model.pkl file is loaded into memory using joblib. This happens **globally**, outside the request loop. This is a critical optimization: loading the model once at startup prevents the latency penalty of reloading the model file for every single incoming user request.
+    
+* **Request Validation:**
+    Before the model ever sees data, the API validates the input using **Pydantic schemas**.
+    * If a user sends text instead of numbers, or a list of the wrong length, the API intercepts the request and returns a 422 Validation Error.
+    * This protects the model from crashing due to malformed input.
+
+* **Inference:**
+    Valid data is passed to the loaded model object's .predict() method. The result is formatted into a JSON response and returned to the client.
+
+---
+
+## Setup & Installation (Local)
+To reproduce this project locally, follow these steps:
+
+**1. Clone the Repository**
+```bash
+git clone [https://github.com/Khuzaimaalam2000/mlops-project.git](https://github.com/Khuzaimaalam2000/mlops-project.git)
+cd mlops-project
+```
+**Initialize Environment** 
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+**Run the API Locally**
+```bash
+uvicorn main:app --reload
+```
 ## Live Deployment
+
 * **Service URL**: https://fastapi-service-531088242025.us-central1.run.app
 * **Interactive API Docs**: https://fastapi-service-531088242025.us-central1.run.app/docs
 * **Region**: us-central1
 * **Project ID**: project-53d16477-9422-4f6b-9e6
+
+---
 
 ## Tech Stack
 * **Python 3.11**: Core application logic.
@@ -15,12 +65,7 @@ This project demonstrates a production-ready MLOps workflow for deploying a Mach
 * **Google Artifact Registry**: Storage for the container image.
 * **Google Cloud Run**: Serverless hosting for the live API.
 
-## Project Structure
-* `main.py`: FastAPI application script defining `/` and `/predict` endpoints.
-* `model.pkl`: The serialized scikit-learn model used for inference.
-* `Dockerfile`: Instructions for building the container image.
-* `requirements.txt`: List of required Python libraries (FastAPI, scikit-learn, etc.).
-* `train.py`: Script used to train and export the model.
+---
 
 ## Testing the API
 You can test the live prediction endpoint using `curl` from your terminal:
@@ -30,6 +75,8 @@ curl -X POST [https://fastapi-service-531088242025.us-central1.run.app/predict](
     -H "Content-Type: application/json" \
     -d '{"features": [1000.0]}'
 ```
+
+---
 
 ## Deployment URLs
 * **Cloud Run (FastAPI):** `https://fastapi-service-531088242025.us-central1.run.app/predict` 
@@ -50,7 +97,7 @@ curl -X POST "http://localhost:8000/predict" \
 ### Expected Response
 ```json
 {
-  "prediction": 1.0,
+  "prediction": 30000.0,
   "model_version": "1.0.0"
 }
 ``` 
