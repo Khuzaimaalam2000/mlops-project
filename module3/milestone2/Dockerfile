@@ -1,22 +1,32 @@
 # Stage 1: Builder
 FROM python:3.11-slim AS builder
 WORKDIR /build
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install dependencies
 COPY app/requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Stage 2: Runtime
 FROM python:3.11-slim
 WORKDIR /app
 
-# Copy installed packages from builder
-COPY --from=builder /root/.local /root/.local
-COPY app/ .
+# 1. Create the secure non-root user FIRST
+RUN useradd -m appuser
 
-# Ensure local bin is on PATH
-ENV PATH=/root/.local/bin:$PATH
+# 2. Copy the venv and GIVE OWNERSHIP to appuser
+COPY --from=builder --chown=appuser:appuser /opt/venv /opt/venv
 
-# Security: Run as non-root user
-RUN useradd -m appuser && chown -R appuser /app
+# 3. Copy your app code and GIVE OWNERSHIP to appuser
+COPY --chown=appuser:appuser app/ .
+
+# 4. Activate the virtual environment
+ENV PATH="/opt/venv/bin:$PATH"
+
+# 5. Switch to the secure user
 USER appuser
 
 EXPOSE 8080
