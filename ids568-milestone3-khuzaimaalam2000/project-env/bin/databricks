@@ -1,0 +1,6 @@
+#!/Users/khuzaimaalam/mlops-project/ids568-milestone3-khuzaimaalam2000/project-env/bin/python3.12
+import sys
+from databricks_cli.cli import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())

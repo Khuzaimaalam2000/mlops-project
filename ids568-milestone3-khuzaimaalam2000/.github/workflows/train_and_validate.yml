@@ -1,0 +1,27 @@
+name: Train and Validate Pipeline
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run Preprocessing
+      run: python preprocess.py
+      
+    - name: Run Training (Logs to local MLflow during CI)
+      run: python train.py 20 5
+      
+    - name: Run Quality Gate (Validation)
+      run: python model_validation.py
